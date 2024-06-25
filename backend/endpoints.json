@@ -1,0 +1,11 @@
+{
+    "GET /api":
+    {
+        "description": "Returns a JSON containing all the available endpoints."
+    },
+
+    "GET /api/healthCheck":
+    {
+        "description": "Returns a message that the server is live if it is."
+    }
+}
