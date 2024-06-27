@@ -16,7 +16,7 @@ const seed = () =>
                     username VARCHAR NOT NULL,
                     email VARCHAR NOT NULL UNIQUE,
                     password VARCHAR NOT NULL,
-                    avatar_url VARCHAR,
+                    avatar_url VARCHAR
                 );`
             );
         })
