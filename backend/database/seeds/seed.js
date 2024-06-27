@@ -14,7 +14,7 @@ const seed = () =>
                 CREATE TABLE users (
                     user_id SERIAL PRIMARY KEY,
                     username VARCHAR NOT NULL,
-                    email VARCHAR NOT NULL,
+                    email VARCHAR NOT NULL UNIQUE,
                     password VARCHAR NOT NULL,
                     avatar_url VARCHAR,
                 );`
@@ -26,9 +26,14 @@ const seed = () =>
                 CREATE TABLE tasks (
                     task_id SERIAL PRIMARY KEY,
                     user_id INT REFERENCES users(user_id) ON DELETE CASCADE NOT NULL,
-                    
+                    name VARCHAR NOT NULL,
+                    question VARCHAR,
+                    colour_hex CHAR(6),
+                    icon VARCHAR,
+                    reset_time TIMETZ,
+                    check_in_dates JSON
                 );`);
         })
 };
-/* Still need to decide what exactly the database will contain */
+
 module.exports = seed;
