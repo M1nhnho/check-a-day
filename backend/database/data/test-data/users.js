@@ -3,28 +3,28 @@ module.exports = [
         user_id: '',
         username: '',
         email: '',
-        password_hash: '',
+        password: '',
         avatar_url: ''
     },
     {
         user_id: '',
         username: '',
         email: '',
-        password_hash: '',
+        password: '',
         avatar_url: ''
     },
     {
         user_id: '',
         username: '',
         email: '',
-        password_hash: '',
+        password: '',
         avatar_url: ''
     },
     {
         user_id: '',
         username: '',
         email: '',
-        password_hash: '',
+        password: '',
         avatar_url: ''
     }
 ];
