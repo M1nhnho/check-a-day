@@ -15,7 +15,7 @@ const seed = () =>
                     user_id SERIAL PRIMARY KEY,
                     username VARCHAR NOT NULL,
                     email VARCHAR NOT NULL UNIQUE,
-                    password VARCHAR NOT NULL,
+                    password_hash VARCHAR NOT NULL,
                     avatar_url VARCHAR
                 );`
             );
