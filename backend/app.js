@@ -1,6 +1,6 @@
 const express = require('express');
 const { getAPIEndpoints } = require('./controllers/api.controller.js');
-const { postUser } = require('./controllers/users.controller.js');
+const { postUser, authenticateUserLogin } = require('./controllers/users.controller.js');
 
 // Server
 const app = express();
@@ -14,5 +14,7 @@ app.get('/api/healthCheck', (req, res) =>
 })
 
 app.post('/api/users', postUser);
+
+app.post('/api/users/login/authentication', authenticateUserLogin)
 
 module.exports = app;
