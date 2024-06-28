@@ -1,9 +1,14 @@
 const db = require('../connection.js');
 
-const seed = ({usersData, tasksData}) =>
+/* Eventually add {usersData, tasksData} */
+const seed = () =>
 {
     return db
-        .query(`DROP TABLE IF EXISTS tasks;`)
+        .query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`)
+        .then(() =>
+        {
+            return db.query(`DROP TABLE IF EXISTS tasks;`);
+        })
         .then(() =>
         {
             return db.query(`DROP TABLE IF EXISTS users;`);
