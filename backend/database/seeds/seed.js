@@ -1,6 +1,6 @@
 const db = require('../connection.js');
 
-const seed = () =>
+const seed = ({usersData, tasksData}) =>
 {
     return db
         .query(`DROP TABLE IF EXISTS tasks;`)
