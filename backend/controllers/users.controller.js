@@ -1,4 +1,4 @@
-const { insertUser, selectUserLogin } = require("../models/users.model.js");
+const { insertUser, selectUser, selectUserLogin } = require("../models/users.model.js");
 
 exports.postUser = (req, res, next) =>
 {
@@ -6,6 +6,17 @@ exports.postUser = (req, res, next) =>
         .then((user) =>
         {
             res.status(201).send({ user });
+        })
+        .catch(next);
+}
+
+exports.getUserByID = (req, res, next) =>
+{
+    const { user_id } = req.params;
+    selectUser(user_id)
+        .then((user) =>
+        {
+            res.status(200).send({ user });
         })
         .catch(next);
 }

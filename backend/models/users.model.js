@@ -17,6 +17,20 @@ exports.insertUser = (reqBody) =>
         });
 };
 
+exports.selectUser = (userID) =>
+{
+    return db.query(
+            `SELECT user_id, username, avatar_url
+            FROM users
+            WHERE user_id = $1;`,
+            [userID]
+        )
+        .then(({ rows }) =>
+        {
+            return rows[0];
+        });
+};
+
 exports.selectUserLogin = (reqBody) =>
 {
     const { password } = reqBody;
