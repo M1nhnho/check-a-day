@@ -7,5 +7,56 @@
     "GET /api/healthCheck":
     {
         "description": "Returns a message that the server is live if it is."
+    },
+
+
+
+    "POST /api/users":
+    {
+        "description": "Registers a new user to the database.",
+        "requestBodyFormat":
+        {
+            "username": "<any string>",
+            "email": "<any string>",
+            "password": "<any string>",
+            "avatar_url": "<any string> (optional)"
+        },
+        "exampleResponse":
+        {
+            "user":
+            {
+                "user_id": 1,
+                "username": "Knight",
+                "avatar_url": "https://cdn2.steamgriddb.com/icon/602d1305678a8d5fdb372271e980da6a/32/256x256.png"
+            }
+        }
+    },
+
+    "GET /api/users/:user_id":
+    {
+        "description": "Returns a user's ID, username and avatar URL.",
+        "exampleResponse":
+        {
+            "user":
+            {
+                "user_id": 1,
+                "username": "Knight",
+                "avatar_url": "https://cdn2.steamgriddb.com/icon/602d1305678a8d5fdb372271e980da6a/32/256x256.png"
+            }
+        }
+    },
+    
+    "POST /api/users/login/authentication":
+    {
+        "description": "Returns a boolean whether authentication of user's login has succeeded.",
+        "requestBodyFormat":
+        {
+            "email": "<any string>",
+            "password": "<any string>"
+        },
+        "exampleResponse":
+        {
+            "authenticated": true
+        }
     }
 }
