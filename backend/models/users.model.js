@@ -84,3 +84,20 @@ exports.selectUserLogin = (email, password) =>
             return rows[0].password_match;
         });
 };
+
+exports.removeUser = (userID) =>
+{
+    return db.query(
+            `DELETE FROM users
+            WHERE user_id = $1
+            RETURNING *;`,
+            [userID]
+        )
+        .then(({ rows }) =>
+        {
+            if (rows.length === 0)
+            {
+                return Promise.reject({ status: 404, msg: 'Not Found' });
+            }
+        });
+};

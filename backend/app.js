@@ -1,6 +1,6 @@
 const express = require('express');
 const { getAPIEndpoints } = require('./controllers/api.controller.js');
-const { postUser, authenticateUserLogin, getUserByID, patchUserByID } = require('./controllers/users.controller.js');
+const { postUser, authenticateUserLogin, getUserByID, patchUserByID, deleteUserByID } = require('./controllers/users.controller.js');
 
 // Server
 const app = express();
@@ -17,5 +17,6 @@ app.post('/api/users', postUser);
 app.post('/api/users/login/authentication', authenticateUserLogin)
 app.get('/api/users/:user_id', getUserByID);
 app.patch('/api/users/:user_id', patchUserByID);
+app.delete('/api/users/:user_id', deleteUserByID);
 
 module.exports = app;
