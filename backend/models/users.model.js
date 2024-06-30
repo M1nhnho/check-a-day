@@ -66,8 +66,10 @@ exports.updateUserByID = (userID, reqBody) =>
     {
         if (key in reqBody)
         {
-            values.push(reqBody[key])
-            columns.push(`${key} = $${values.length + 1}`)
+            values.push(reqBody[key]);
+            columns.push(key === 'password'
+                ? `password_hash = crypt($${values.length + 1}, gen_salt('md5'))`
+                : `${key} = $${values.length + 1}`);
         }
     });
 
