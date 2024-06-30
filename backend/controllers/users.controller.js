@@ -1,4 +1,4 @@
-const { insertUser, selectUserLogin, selectUser, updateUser, removeUser } = require("../models/users.model.js");
+const { insertUser, selectUserLogin, selectUserByID, updateUserByID, removeUserByID } = require("../models/users.model.js");
 
 exports.postUser = (req, res, next) =>
 {
@@ -24,7 +24,7 @@ exports.authenticateUserLogin = (req, res, next) =>
 exports.getUserByID = (req, res, next) =>
 {
     const { user_id } = req.params;
-    selectUser(user_id)
+    selectUserByID(user_id)
         .then((user) =>
         {
             res.status(200).send({ user });
@@ -35,7 +35,7 @@ exports.getUserByID = (req, res, next) =>
 exports.patchUserByID = (req, res, next) =>
 {
     const { user_id } = req.params;
-    updateUser(user_id, req.body)
+    updateUserByID(user_id, req.body)
         .then((user) =>
         {
             res.status(200).send({ user });
@@ -46,7 +46,7 @@ exports.patchUserByID = (req, res, next) =>
 exports.deleteUserByID = (req, res, next) =>
 {
     const { user_id } = req.params;
-    removeUser(user_id)
+    removeUserByID(user_id)
         .then(() =>
         {
             res.status(204).send();
