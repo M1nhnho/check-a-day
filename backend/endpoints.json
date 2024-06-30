@@ -32,6 +32,20 @@
         }
     },
 
+    "POST /api/users/login/authentication":
+    {
+        "description": "Returns a boolean whether authentication of user's login has succeeded.",
+        "requestBodyFormat":
+        {
+            "email": "<any string>",
+            "password": "<any string>"
+        },
+        "exampleResponse":
+        {
+            "authenticated": true
+        }
+    },
+
     "GET /api/users/:user_id":
     {
         "description": "Returns a user's ID, username and avatar URL.",
@@ -45,18 +59,30 @@
             }
         }
     },
-    
-    "POST /api/users/login/authentication":
+
+    "PATCH /api/users/:user_id":
     {
-        "description": "Returns a boolean whether authentication of user's login has succeeded.",
+        "description": "Update a user's details including their username, email, password and/or avatar.",
         "requestBodyFormat":
         {
-            "email": "<any string>",
-            "password": "<any string>"
+            "username": "<any string> (optional)",
+            "email": "<any string> (optional)",
+            "password": "<any string> (optional)",
+            "avatar_url": "<any string> (optional)"
         },
         "exampleResponse":
         {
-            "authenticated": true
+            "user":
+            {
+                "user_id": 1,
+                "username": "Hornet",
+                "avatar_url": "https://cdn.wikimg.net/en/hkwiki/images/1/16/Hornet_Idle.png"
+            }
         }
+    },
+
+    "DELETE /api/users/:user_id":
+    {
+        "description": "Deletes a user from the database."
     }
 }
