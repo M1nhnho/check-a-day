@@ -1,7 +1,7 @@
 const db = require('../connection.js');
+const format = require('pg-format');
 
-/* Eventually add {usersData, tasksData} */
-const seed = () =>
+const seed = ({ usersData, tasksData }) =>
 {
     return db
         .query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`)
@@ -38,6 +38,16 @@ const seed = () =>
                     reset_time TIMETZ,
                     check_in_dates JSON
                 );`);
+        })
+        .then(() =>
+        {
+            console.log();
+            return db.query(
+                format(
+                    `INSERT INTO users (username, email, password_hash, avatar_url) VALUES %L`,
+                    usersData.map(({ username, email, password, avatar_url }) => [username, email, `crypt('${password}', gen_salt('md5'))`, avatar_url])
+                ).replaceAll(/'crypt\(''(.[^'']+)'', gen_salt\(''md5''\)\)'/g, "crypt('$1', gen_salt('md5'))")
+            );
         })
 };
 
