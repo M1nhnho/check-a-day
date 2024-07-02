@@ -91,7 +91,21 @@ describe('/api', () =>
                         );
                     });
             });
-            
+            test("STATUS 400 - Responds with 'Bad Request' when sent object is missing required properties.", () =>
+            {
+                return request(app)
+                    .post('/api/users')
+                    .send(
+                        {
+                            username: 'test'
+                        }
+                    )
+                    .expect(400)
+                    .then(({ body: { msg } }) =>
+                    {
+                        expect(msg).toBe('Bad Request');
+                    });
+            });
         });
     });
 });
