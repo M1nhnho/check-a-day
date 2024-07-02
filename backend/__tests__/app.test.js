@@ -86,12 +86,26 @@ describe('/api', () =>
                             {
                                 user_id: 4,
                                 username: 'test',
-                                avatar_url: null
+                                avatar_url: 'test-avatar-url'
                             }
                         );
                     });
             });
-            
+            test("STATUS 400 - Responds with 'Bad Request' when sent object is missing required properties.", () =>
+            {
+                return request(app)
+                    .post('/api/users')
+                    .send(
+                        {
+                            username: 'test'
+                        }
+                    )
+                    .expect(400)
+                    .then(({ body: { msg } }) =>
+                    {
+                        expect(msg).toBe('Bad Request');
+                    });
+            });
         });
     });
 });

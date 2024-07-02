@@ -2,7 +2,8 @@ const { insertUser, selectUserLogin, selectUserByID, updateUserByID, removeUserB
 
 exports.postUser = (req, res, next) =>
 {
-    insertUser(req.body)
+    const { username, email, password, avatar_url } = req.body;
+    insertUser(username, email, password, avatar_url)
         .then((user) =>
         {
             res.status(201).send({ user });
