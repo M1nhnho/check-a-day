@@ -86,7 +86,7 @@ describe('/api', () =>
                             {
                                 user_id: 4,
                                 username: 'test',
-                                avatar_url: null
+                                avatar_url: 'test-avatar-url'
                             }
                         );
                     });

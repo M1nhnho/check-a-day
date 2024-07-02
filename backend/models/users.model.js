@@ -1,15 +1,14 @@
 const db = require('../database/connection.js');
 
-exports.insertUser = (reqBody) =>
+exports.insertUser = (username, email, password, avatarURL = null) =>
 {
-    const { username, email, password } = reqBody;
     return db.query(
             `INSERT INTO users
-                (username, email, password_hash)
+                (username, email, password_hash, avatar_url)
             VALUES
-                ($1, $2, crypt($3, gen_salt('md5')))
+                ($1, $2, crypt($3, gen_salt('md5')), $4)
             RETURNING *;`,
-            [username, email, password]
+            [username, email, password, avatarURL]
         )
         .then(({ rows }) =>
         {
