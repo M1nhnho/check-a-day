@@ -146,5 +146,48 @@ describe('/api', () =>
                 });
             });
         });
+
+        describe('/:user_id', () =>
+        {
+            describe('GET', () =>
+            {
+                test("STATUS 200 - Responds with the user object of the requested user ID.", () =>
+                {
+                    return request(app)
+                        .get('/api/users/1')
+                        .expect(200)
+                        .then(({ body: { user } }) =>
+                        {
+                            expect(user).toMatchObject(
+                                {
+                                    user_id: 1,
+                                    username: 'admin',
+                                    avatar_url: null
+                                }
+                            );
+                        });
+                });
+                test("STATUS 404 - Responds with 'Not Found' when requested with a valid but non-existent user ID.", () =>
+                {
+                    return request(app)
+                        .get('/api/users/999999')
+                        .expect(404)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Not Found');
+                        });
+                });
+                test("STATUS 400 - Responds with 'Bad Request' when requested with an invalid user ID.", () =>
+                {
+                    return request(app)
+                        .get('/api/users/not-a-number')
+                        .expect(400)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Bad Request');
+                        });
+                });
+            });
+        });
     });
 });
