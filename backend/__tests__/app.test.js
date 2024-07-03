@@ -107,5 +107,44 @@ describe('/api', () =>
                     });
             });
         });
+
+        describe('/login/authentication', () =>
+        {
+            describe('POST', () =>
+            {
+                test("STATUS 200 - Responds with authentication as true upon successful login.", () =>
+                {
+                    return request(app)
+                        .post('/api/users/login/authentication')
+                        .send(
+                            {
+                                email: 'admin@email.co.uk',
+                                password: 'admin-password'
+                            }
+                        )
+                        .expect(200)
+                        .then(({ body: { authenticated } }) =>
+                        {
+                            expect(authenticated).toBe(true);
+                        });
+                });
+                test("STATUS 401 - Responds with authentication as false if sent email or password is faulty.", () =>
+                {
+                    return request(app)
+                        .post('/api/users/login/authentication')
+                        .send(
+                            {
+                                email: 'admin@email.co.uk',
+                                password: 'not-admin-password'
+                            }
+                        )
+                        .expect(401)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Unauthorised');
+                        });
+                });
+            });
+        });
     });
 });
