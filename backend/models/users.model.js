@@ -81,6 +81,10 @@ exports.updateUserByID = (userID, reqBody) =>
         )
         .then(({ rows }) =>
         {
+            if (rows.length === 0)
+            {
+                return Promise.reject({ status: 404, msg: 'Not Found' });
+            }
             const { email, password_hash, ...rest } = rows[0]
             return rest;
         });

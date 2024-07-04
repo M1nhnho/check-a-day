@@ -188,6 +188,83 @@ describe('/api', () =>
                         });
                 });
             });
+
+            describe('PATCH', () =>
+            {
+                test("STATUS 200 - Responds with the updated user object of the requested user ID with one new sent value.", () =>
+                {
+                    return request(app)
+                        .patch('/api/users/1')
+                        .send(
+                            {
+                                username: 'updated-test-username'
+                            }
+                        )
+                        .expect(200)
+                        .then(({ body: { user } }) =>
+                        {
+                            expect(user).toMatchObject(
+                                {
+                                    user_id: 1,
+                                    username: 'updated-test-username',
+                                    avatar_url: null
+                                }
+                            );
+                        });
+                });
+                test("STATUS 200 - Responds with the updated user object of the requested user ID with multiple new sent values.", () =>
+                {
+                    return request(app)
+                        .patch('/api/users/1')
+                        .send(
+                            {
+                                username: 'updated-test-username',
+                                avatar_url: 'updated-test-avatar'
+                            }
+                        )
+                        .expect(200)
+                        .then(({ body: { user } }) =>
+                        {
+                            expect(user).toMatchObject(
+                                {
+                                    user_id: 1,
+                                    username: 'updated-test-username',
+                                    avatar_url: 'updated-test-avatar'
+                                }
+                            );
+                        });
+                });
+                test("STATUS 404 - Responds with 'Not Found' when requested with a valid but non-existent user ID.", () =>
+                {
+                    return request(app)
+                        .patch('/api/users/999999')
+                        .send(
+                            {
+                                username: 'updated-test-username'
+                            }
+                        )
+                        .expect(404)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Not Found');
+                        });
+                });
+                test("STATUS 400 - Responds with 'Bad Request' when requested with an invalid user ID.", () =>
+                {
+                    return request(app)
+                        .patch('/api/users/not-a-number')
+                        .send(
+                            {
+                                username: 'updated-test-username'
+                            }
+                        )
+                        .expect(400)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Bad Request');
+                        });
+                });
+            });
         });
     });
 });
