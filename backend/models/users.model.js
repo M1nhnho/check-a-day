@@ -1,6 +1,6 @@
 const db = require('../database/connection.js');
 
-exports.insertUser = (username, email, password, avatarURL = null) =>
+exports.insertUser = (username, email, password, avatarURL) =>
 {
     return db.query(
             `INSERT INTO users

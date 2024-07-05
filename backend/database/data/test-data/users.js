@@ -2,8 +2,7 @@ module.exports = [
     {
         username: 'admin',
         email: 'admin@email.co.uk',
-        password: 'admin-password',
-        avatar_url: null
+        password: 'admin-password'
     },
     {
         username: 'Knight',
