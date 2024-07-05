@@ -288,7 +288,7 @@ describe('/api', () =>
                 {
                     return request(app)
                         .delete('/api/users/not-a-number')
-                        .expect(404)
+                        .expect(400)
                         .then(({ body: { msg } }) =>
                         {
                             expect(msg).toBe('Bad Request');
