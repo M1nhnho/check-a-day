@@ -41,6 +41,7 @@ const seed = ({ usersData, tasksData }) =>
         })
         .then(() =>
         {
+            if (!usersData) { return; }
             return db.query(
                 format(
                     `INSERT INTO users (username, email, password_hash, avatar_url) VALUES %L`,

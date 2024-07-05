@@ -1,6 +1,9 @@
 const seed = require('./seed.js');
 const db = require('../connection.js');
-const data = require('../data/test-data');
+const data = {
+    usersData: null,
+    tasksData: null
+}
 
 const runSeed = () =>
 {
