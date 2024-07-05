@@ -1,13 +1,14 @@
 const seed = require('./seed.js');
 const db = require('../connection.js');
-const data = {
+const testData = require('../data/test-data');
+const blankData = {
     usersData: null,
     tasksData: null
 }
 
 const runSeed = () =>
 {
-    return seed(data).then(() => db.end());
+    return seed(blankData).then(() => db.end());
 };
 
 runSeed();

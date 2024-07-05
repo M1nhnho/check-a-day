@@ -32,11 +32,11 @@ const seed = ({ usersData, tasksData }) =>
                     task_id SERIAL PRIMARY KEY,
                     user_id INT REFERENCES users(user_id) ON DELETE CASCADE NOT NULL,
                     name VARCHAR NOT NULL,
+                    check_in_dates JSON NOT NULL,
                     question VARCHAR,
                     colour_hex CHAR(6),
                     icon VARCHAR,
-                    reset_time TIMETZ,
-                    check_in_dates JSON
+                    reset_time TIMETZ
                 );`);
         })
         .then(() =>
@@ -49,6 +49,17 @@ const seed = ({ usersData, tasksData }) =>
                 ).replaceAll(/'crypt\(''(.[^'']+)'', gen_salt\(''md5''\)\)'/g, "crypt('$1', gen_salt('md5'))")
             );
         })
+        .then(() =>
+        {
+            if (!tasksData) { return; }
+            return db.query(
+                format(
+                    `INSERT INTO tasks (user_id, name, check_in_dates, question, colour_hex, icon, reset_time) VALUES %L`,
+                    tasksData.map(({ user_id, name, check_in_dates, question, colour_hex, icon, reset_time }) =>
+                        [user_id, name, check_in_dates, question, colour_hex, icon, reset_time])
+                )
+            );
+        });
 };
 
 module.exports = seed;
