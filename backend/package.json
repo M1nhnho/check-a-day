@@ -6,7 +6,7 @@
     "setup-dbs": "psql -f ./database/setup.sql",
     "seed": "node ./database/seeds/run-seed.js",
     "test": "jest",
-    "prepare": "husky",
+    "prepare": "cd .. && husky backend/.husky",
     "start": "node listen.js"
   },
   "dependencies": {
