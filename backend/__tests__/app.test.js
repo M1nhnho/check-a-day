@@ -40,6 +40,7 @@ describe('/api', () =>
         });
     });
 
+
     describe('/users', () =>
     {
         describe('POST', () =>
@@ -293,6 +294,39 @@ describe('/api', () =>
                         {
                             expect(msg).toBe('Bad Request');
                         });
+                });
+            });
+
+
+            describe('/tasks', () =>
+            {
+                describe('POST', () =>
+                {
+                    // test("STATUS 201 - Responds with new task object without optional properties.", () =>
+                    // {
+                    //     return request(app)
+                    //         .post('/api/users/1/tasks')
+                    //         .send(
+                    //             {
+                    //                 name: 'test'
+                    //             }
+                    //         )
+                    //         .expect(201)
+                    //         .then(({ body: { task } }) =>
+                    //         {
+                    //             expect(task).toMatchObject(
+                    //                 {
+                    //                     task_id: 1,
+                    //                     user_id: 1,
+                    //                     name: 'test',
+                    //                     question: null,
+                    //                     colour_hex: null,
+                    //                     icon: null,
+                    //                     reset_time: null
+                    //                 }
+                    //             );
+                    //         });
+                    // });
                 });
             });
         });

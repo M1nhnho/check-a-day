@@ -12,7 +12,7 @@ exports.insertUser = (username, email, password, avatarURL) =>
         )
         .then(({ rows }) =>
         {
-            const { email, password_hash, ...rest } = rows[0]
+            const { email, password_hash, ...rest } = rows[0];
             return rest;
         });
 };
