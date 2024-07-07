@@ -302,31 +302,152 @@ describe('/api', () =>
             {
                 describe('POST', () =>
                 {
-                    // test("STATUS 201 - Responds with new task object without optional properties.", () =>
-                    // {
-                    //     return request(app)
-                    //         .post('/api/users/1/tasks')
-                    //         .send(
-                    //             {
-                    //                 name: 'test'
-                    //             }
-                    //         )
-                    //         .expect(201)
-                    //         .then(({ body: { task } }) =>
-                    //         {
-                    //             expect(task).toMatchObject(
-                    //                 {
-                    //                     task_id: 1,
-                    //                     user_id: 1,
-                    //                     name: 'test',
-                    //                     question: null,
-                    //                     colour_hex: null,
-                    //                     icon: null,
-                    //                     reset_time: null
-                    //                 }
-                    //             );
-                    //         });
-                    // });
+                    test("STATUS 201 - Responds with new task object without optional properties sent.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test'
+                                }
+                            )
+                            .expect(201)
+                            .then(({ body: { task } }) =>
+                            {
+                                const currentDate = new Date().toJSON().slice(0, 10);
+                                expect(task).toMatchObject(
+                                    {
+                                        task_id: 6,
+                                        user_id: 1,
+                                        name: 'test',
+                                        question: null,
+                                        colour_hex: null,
+                                        icon: null,
+                                        reset_time: null
+                                    }
+                                );
+                                expect(task.check_in_dates[currentDate]).toBe(false);
+                            });
+                    });
+                    test("STATUS 201 - Responds with new task object with some optional properties sent.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test',
+                                    question: 'test-question?',
+                                    colour_hex: '000000'
+                                }
+                            )
+                            .expect(201)
+                            .then(({ body: { task } }) =>
+                            {
+                                const currentDate = new Date().toJSON().slice(0, 10);
+                                expect(task).toMatchObject(
+                                    {
+                                        task_id: 6,
+                                        user_id: 1,
+                                        name: 'test',
+                                        question: 'test-question?',
+                                        colour_hex: '000000',
+                                        icon: null,
+                                        reset_time: null
+                                    }
+                                );
+                                expect(task.check_in_dates[currentDate]).toBe(false);
+                            });
+                    });
+                    test("STATUS 201 - Responds with new task object with all optional properties sent.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test',
+                                    question: 'test-question?',
+                                    colour_hex: '000000',
+                                    icon: 'test-icon',
+                                    reset_time: '00:00'
+                                }
+                            )
+                            .expect(201)
+                            .then(({ body: { task } }) =>
+                            {
+                                const currentDate = new Date().toJSON().slice(0, 10);
+                                expect(task).toMatchObject(
+                                    {
+                                        task_id: 6,
+                                        user_id: 1,
+                                        name: 'test',
+                                        question: 'test-question?',
+                                        colour_hex: '000000',
+                                        icon: 'test-icon',
+                                        reset_time: '00:00:00+01'
+                                    }
+                                );
+                                expect(task.check_in_dates[currentDate]).toBe(false);
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when sent object is missing required properties.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send({})
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when sent 'colour_hex' is not 6 characters long.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test',
+                                    colour_hex: 'too-long',
+                                }
+                            )
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when sent 'colour_hex' is not hexadecimal.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test',
+                                    colour_hex: 'notHex',
+                                }
+                            )
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when sent 'reset_time' is not a time.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/1/tasks')
+                            .send(
+                                {
+                                    name: 'test',
+                                    reset_time: 'not-a-time',
+                                }
+                            )
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
                 });
             });
         });

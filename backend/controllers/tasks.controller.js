@@ -7,7 +7,7 @@ exports.postTask = (req, res, next) =>
     insertTask(user_id, name, question, colour_hex, icon, reset_time)
         .then((task) =>
         {
-            res.status(200).send({ task });
+            res.status(201).send({ task });
         })
         .catch(next);
 }
