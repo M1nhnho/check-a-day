@@ -45,7 +45,7 @@ describe('/api', () =>
     {
         describe('POST', () =>
         {
-            test("STATUS 201 - Responds with the new user object without the optional avatar.", () =>
+            test("STATUS 201 - Responds with new user object without avatar URL if not sent.", () =>
             {
                 return request(app)
                     .post('/api/users')
@@ -68,7 +68,7 @@ describe('/api', () =>
                         );
                     });
             });
-            test("STATUS 201 - Responds with the new user object with sent avatar URL.", () =>
+            test("STATUS 201 - Responds with new user object with avatar URL sent.", () =>
             {
                 return request(app)
                     .post('/api/users')
@@ -113,7 +113,7 @@ describe('/api', () =>
         {
             describe('POST', () =>
             {
-                test("STATUS 200 - Responds with authentication as true upon successful login.", () =>
+                test("STATUS 200 - Responds with authentication as true if email and password sent are both correct.", () =>
                 {
                     return request(app)
                         .post('/api/users/login/authentication')
@@ -129,7 +129,7 @@ describe('/api', () =>
                             expect(authenticated).toBe(true);
                         });
                 });
-                test("STATUS 401 - Responds with authentication as false if sent email or password is faulty.", () =>
+                test("STATUS 401 - Responds with authentication as false if email or password sent is incorrect.", () =>
                 {
                     return request(app)
                         .post('/api/users/login/authentication')
@@ -145,6 +145,21 @@ describe('/api', () =>
                             expect(msg).toBe('Unauthorised');
                         });
                 });
+                test("STATUS 400 - Responds with 'Bad Request' when sent object is missing required properties.", () =>
+                {
+                    return request(app)
+                        .post('/api/users/login/authentication')
+                        .send(
+                            {
+                                email: 'admin@email.co.uk',
+                            }
+                        )
+                        .expect(400)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Bad Request');
+                        });
+                });
             });
         });
 
@@ -152,7 +167,7 @@ describe('/api', () =>
         {
             describe('GET', () =>
             {
-                test("STATUS 200 - Responds with the user object of the requested user ID.", () =>
+                test("STATUS 200 - Responds with user object of the requested user ID.", () =>
                 {
                     return request(app)
                         .get('/api/users/1')
@@ -192,7 +207,7 @@ describe('/api', () =>
 
             describe('PATCH', () =>
             {
-                test("STATUS 200 - Responds with the updated user object of the requested user ID with one new sent value.", () =>
+                test("STATUS 200 - Responds with updated user object of requested user ID with one new value sent.", () =>
                 {
                     return request(app)
                         .patch('/api/users/1')
@@ -213,7 +228,7 @@ describe('/api', () =>
                             );
                         });
                 });
-                test("STATUS 200 - Responds with the updated user object of the requested user ID with multiple new sent values.", () =>
+                test("STATUS 200 - Responds with updated user object of requested user ID with multiple new values sent.", () =>
                 {
                     return request(app)
                         .patch('/api/users/1')

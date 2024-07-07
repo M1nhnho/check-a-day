@@ -19,6 +19,11 @@ exports.insertUser = (username, email, password, avatarURL) =>
 
 exports.selectUserLogin = (email, password) =>
 {
+    if (!(email && password))
+    {
+        return Promise.reject({ status: 400, msg: 'Bad Request'})
+    }
+
     return db.query(
             `SELECT (password_hash = crypt($2, password_hash))
                 AS password_match
