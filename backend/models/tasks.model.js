@@ -1,6 +1,6 @@
 const db = require('../database/connection.js');
 
-exports.insertTask = (userID, name, question, colourHex, icon, resetTime) =>
+exports.insertTaskToUserID = (userID, name, question, colourHex, icon, resetTime) =>
 {
     if (colourHex && !/[0-9abcdef]{6}/i.test(colourHex))
     {
