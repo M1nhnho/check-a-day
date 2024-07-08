@@ -404,6 +404,36 @@ describe('/api', () =>
                                 expect(task.check_in_dates[currentDate]).toBe(false);
                             });
                     });
+                    test("STATUS 404 - Responds with 'Not Found' when requested with a valid but non-existent user ID.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/999999/tasks')
+                            .send(
+                                {
+                                    name: 'test'
+                                }
+                            )
+                            .expect(404)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Not Found');
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when requested with an invalid user ID.", () =>
+                    {
+                        return request(app)
+                            .post('/api/users/not-a-number/tasks')
+                            .send(
+                                {
+                                    name: 'test'
+                                }
+                            )
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
                     test("STATUS 400 - Responds with 'Bad Request' when sent object is missing required properties.", () =>
                     {
                         return request(app)
