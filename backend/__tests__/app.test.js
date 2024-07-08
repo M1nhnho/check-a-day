@@ -464,6 +464,63 @@ describe('/api', () =>
                             });
                     });
                 });
+                describe('GET', () =>
+                {
+                    test("STATUS 200 - Responds with array of all task objects from requested user ID.", () =>
+                    {
+                        return request(app)
+                            .get('/api/users/2/tasks')
+                            .expect(200)
+                            .then(({ body: { tasks } }) =>
+                            {
+                                expect(tasks.length).toBeGreaterThan(0);
+                                tasks.forEach(({ task_id, user_id, name, check_in_dates, question, colour_hex, icon, reset_time }) =>
+                                    {
+                                        expect(task_id).toBeNumber();
+                                        expect(user_id).toBeNumber();
+                                        expect(name).toBeString();
+                                        expect(check_in_dates).toBeObject();
+                                        expect(check_in_dates).not.toBeEmptyObject();
+                                        if (question) { expect(question).toBeString(); }
+                                        if (colour_hex) { expect(colour_hex).toBeString(); }
+                                        if (icon) { expect(icon).toBeString(); }
+                                        if (reset_time) { expect(reset_time).toBeString(); }
+                                    }
+                                )
+                            });
+                    });
+                    test("STATUS 200 - Responds with empty array from requested user ID if user has no tasks.", () =>
+                    {
+                        return request(app)
+                            .get('/api/users/1/tasks')
+                            .expect(200)
+                            .then(({ body: { tasks } }) =>
+                            {
+                                expect(tasks).toBeArray();
+                                expect(tasks).toHaveLength(0);
+                            });
+                    });
+                    test("STATUS 404 - Responds with 'Not Found' when requested with a valid but non-existent user ID.", () =>
+                    {
+                        return request(app)
+                            .get('/api/users/999999/tasks')
+                            .expect(404)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Not Found');
+                            });
+                    });
+                    test("STATUS 400 - Responds with 'Bad Request' when requested with an invalid user ID.", () =>
+                    {
+                        return request(app)
+                            .get('/api/users/not-a-number/tasks')
+                            .expect(400)
+                            .then(({ body: { msg } }) =>
+                            {
+                                expect(msg).toBe('Bad Request');
+                            });
+                    });
+                });
             });
         });
     });

@@ -1,4 +1,4 @@
-const { insertTask } = require("../models/tasks.model.js");
+const { insertTask, selectTasksByUserID } = require("../models/tasks.model.js");
 
 exports.postTask = (req, res, next) =>
 {
@@ -8,6 +8,17 @@ exports.postTask = (req, res, next) =>
         .then((task) =>
         {
             res.status(201).send({ task });
+        })
+        .catch(next);
+}
+
+exports.getTasksByUserID = (req, res, next) =>
+{
+    const { user_id } = req.params;
+    selectTasksByUserID(user_id)
+        .then((tasks) =>
+        {
+            res.status(200).send({ tasks });
         })
         .catch(next);
 }

@@ -25,3 +25,20 @@ exports.insertTask = (userID, name, question, colourHex, icon, resetTime) =>
             return rows[0];
         });
 };
+
+exports.selectTasksByUserID = (userID) =>
+{
+    const promises = [
+        db.query(`SELECT * FROM users WHERE user_id = $1;`, [userID]),
+        db.query(`SELECT * FROM tasks WHERE user_id = $1;`, [userID])
+    ]
+    return Promise.all(promises)
+        .then(([{ rows: usersRows }, { rows: tasksRows }]) =>
+        {
+            if (usersRows.length === 0)
+            {
+                return Promise.reject({ status: 404, msg: 'Not Found' });
+            }
+            return tasksRows;
+        });
+};
