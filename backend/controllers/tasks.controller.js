@@ -1,4 +1,4 @@
-const { insertTaskToUserID, selectTasksByUserID } = require("../models/tasks.model.js");
+const { insertTaskToUserID, selectTasksByUserID, removeTaskByID } = require("../models/tasks.model.js");
 
 exports.postTaskToUserID = (req, res, next) =>
 {
@@ -19,6 +19,17 @@ exports.getTasksByUserID = (req, res, next) =>
         .then((tasks) =>
         {
             res.status(200).send({ tasks });
+        })
+        .catch(next);
+}
+
+exports.deleteTaskByID = (req, res, next) =>
+{
+    const { task_id } = req.params;
+    removeTaskByID(task_id)
+        .then(() =>
+        {
+            res.status(204).send();
         })
         .catch(next);
 }

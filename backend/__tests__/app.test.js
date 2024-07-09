@@ -494,6 +494,7 @@ describe('/api', () =>
                             });
                     });
                 });
+
                 describe('GET', () =>
                 {
                     test("STATUS 200 - Responds with array of all task objects from requested user ID.", () =>
@@ -550,6 +551,42 @@ describe('/api', () =>
                                 expect(msg).toBe('Bad Request');
                             });
                     });
+                });
+            });
+        });
+    });
+
+    describe('/tasks', () =>
+    {
+        describe('/:task_id', () =>
+        {
+            describe('DELETE', () =>
+            {
+                test("STATUS 204 - Responds with only status code 204.", () =>
+                {
+                    return request(app)
+                        .delete('/api/tasks/1')
+                        .expect(204)
+                });
+                test("STATUS 404 - Responds with 'Not Found' when requested with a valid but non-existent task ID.", () =>
+                {
+                    return request(app)
+                        .delete('/api/tasks/999999')
+                        .expect(404)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Not Found');
+                        });
+                });
+                test("STATUS 400 - Responds with 'Bad Request' when requested with an invalid task ID.", () =>
+                {
+                    return request(app)
+                        .delete('/api/tasks/not-a-number')
+                        .expect(400)
+                        .then(({ body: { msg } }) =>
+                        {
+                            expect(msg).toBe('Bad Request');
+                        });
                 });
             });
         });

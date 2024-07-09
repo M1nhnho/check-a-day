@@ -42,3 +42,20 @@ exports.selectTasksByUserID = (userID) =>
             return tasksRows;
         });
 };
+
+exports.removeTaskByID = (taskID) =>
+{
+    return db.query(
+            `DELETE FROM tasks
+            WHERE task_id = $1
+            RETURNING *;`,
+            [taskID]
+        )
+        .then(({ rows }) =>
+        {
+            if (rows.length === 0)
+            {
+                return Promise.reject({ status: 404, msg: 'Not Found' });
+            }
+        });
+};
